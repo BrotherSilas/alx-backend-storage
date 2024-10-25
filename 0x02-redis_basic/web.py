@@ -6,7 +6,6 @@ import redis
 import requests
 from functools import wraps
 from typing import Callable
-from datetime import timedelta
 
 
 def track_url_access(fn: Callable) -> Callable:
@@ -22,7 +21,7 @@ def track_url_access(fn: Callable) -> Callable:
         # Increment the access counter
         redis_client.incr(count_key)
 
-        # Get the page content (either from cache or by calling the function)
+        # Get the page content
         result = fn(url)
 
         return result
@@ -48,10 +47,8 @@ def cache_page(expiration: int = 10) -> Callable:
             # If not in cache, get fresh content
             page_content = fn(url)
 
-            # Cache the new content with expiration
-            redis_client.setex(cache_key,
-                               timedelta(seconds=expiration),
-                               page_content)
+            # Cache the new content with expiration (using seconds directly)
+            redis_client.setex(cache_key, expiration, page_content)
 
             return page_content
         return wrapper

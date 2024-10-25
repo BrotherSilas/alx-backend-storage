@@ -93,7 +93,7 @@ class Cache:
 
     def __init__(self):
         """
-        Initialize the Cache with a Redis connection and clear any existing data.
+        Initialize Cache with a Redis connection and clear any existing data.
         """
         self._redis = redis.Redis()
         self._redis.flushdb()
