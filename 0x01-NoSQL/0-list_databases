@@ -1,0 +1,4 @@
+// 0-list_databases
+// List all databases
+show dbs
+
